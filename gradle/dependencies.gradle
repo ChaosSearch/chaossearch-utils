@@ -1,0 +1,45 @@
+import org.apache.tools.ant.taskdefs.condition.Os
+
+ext {
+        versions = [:]
+        libs = [:]
+
+        platform = {
+                arch = Os.OS_ARCH
+                if (arch == "amd64") {
+                        arch = "x86_64"
+                }
+                if(Os.isFamily(Os.FAMILY_MAC)) {
+                        "macosx-${arch}"
+                } else {
+                        "linux-${arch}"
+                }
+        }
+}
+
+versions +=
+        [ scala: "2.12"
+        , scalaParser: "1.0.4"
+        , scalaTest: "3.0.1"
+        , scalaXml: "1.0.6"
+        , akka: "2.5.1"
+        , akkaHttp: "10.0.6"
+        , slf4j: "1.7.2"
+        , alpakka_unix_domain_socket: "0.20"
+        ]
+
+libs +=
+        [ scala: "org.scala-lang:scala-library:${versions.scala}.2"
+        , scalaCompiler: "org.scala-lang:scala-compiler:${versions.scala}.2"
+        , scalaReflect: "org.scala-lang:scala-reflect:${versions.scala}.2"
+        , scalaParser: "org.scala-lang.modules:scala-parser-combinators_${versions.scala}:${versions.scalaParser}"
+        , scalaXML: "org.scala-lang.modules:scala-xml_${versions.scala}:${versions.scalaXml}"
+        , scalaTest: "org.scalatest:scalatest_${versions.scala}:${versions.scalaTest}"
+        , akka_actor: "com.typesafe.akka:akka-actor_${versions.scala}:${versions.akka}"
+        , akka_cluster: "com.typesafe.akka:akka-cluster_${versions.scala}:${versions.akka}"
+        , akka_http: "com.typesafe.akka:akka-http_${versions.scala}:${versions.akkaHttp}"
+        , akka_slf4j: "com.typesafe.akka:akka-slf4j_${versions.scala}:${versions.akka}"
+        , akka_stream: "com.typesafe.akka:akka-stream_${versions.scala}:${versions.akka}"
+        , slf4j: "org.slf4j:slf4j-api:${versions.slf4j}"
+	, alpakka_unix_domain_socket: "com.lightbend.akka:akka-stream-alpakka-unix-domain-socket_${versions.scala}:${versions.alpakka_unix_domain_socket}"
+        ]

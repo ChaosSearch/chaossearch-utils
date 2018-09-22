@@ -1,0 +1,74 @@
+
+plugins {
+        id 'scala'
+}
+
+configurations {
+        all*.exclude group: 'org.bytedeco', module: 'javacpp-presets'
+        macrosCompile
+}
+
+apply from: "$projectDir/gradle/dependencies.gradle"
+
+repositories {
+        mavenCentral()
+}
+
+dependencies {
+    compile([
+      libs.scala,
+      libs.scalaReflect,
+      libs.scalaParser,
+      libs.scalaXML,
+      libs.akka_actor,
+      libs.akka_cluster,
+      libs.akka_http,
+      libs.akka_slf4j,
+      libs.akka_stream,
+      libs.slf4j,
+      libs.alpakka_unix_domain_socket
+    ])
+    macrosCompile([libs.scala, libs.scalaReflect])
+}
+
+tasks.withType(ScalaCompile) {
+}
+
+sourceSets {
+  macros {
+    scala.srcDir "source/scala-macros"
+    compileClasspath += files("source/scala-macros")
+  }
+  main {
+    scala.srcDir "source/scala"
+    compileClasspath += files("source/scala", "build/classes/macros")
+    resources.srcDirs = files("source/resources")
+  }
+}
+
+compileMacrosScala {
+  // support for "gradle -t" builds
+  inputs.files fileTree(dir: "${projectDir}/source/scala-macros", include: "**.scala")
+  inputs.files fileTree(dir: "${projectDir}/source/scala", include: "**.scala")
+}
+
+compileScala {
+  dependsOn compileMacrosScala
+}
+
+jar {
+  manifest {
+    attributes(
+      [ "Implementation-Title": "chaossearch-utils"
+      , "Implementation-Version": "1.0"
+      , "Implementation-Vendor": "CHAOSSEARCH.io"
+      ]
+    )
+  }
+}
+
+task printClasspath {
+    doLast {
+        configurations.testRuntime.each { println it }
+    }
+}
