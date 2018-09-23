@@ -19,7 +19,7 @@ build/libs/chaossearch-utils.jar
 ## `chaossearch.utils.io.UnixDomain`
 ### `UDSClientTransport`
 
-At ChaosSearch we use this `Akka-Http` `ClientTransport` pattern to access the `Docker Engine` Unix Domain socket for our swarm leader nodes.
+At ChaosSearch we use this `Akka-Http` `ClientTransport` pattern to access the `Docker Engine` Unix Domain socket for our swarm manager nodes.
 
 The following snippets of code should give you a flavor of how to use this `ClientTransport` pattern to create a connection pool to the `Docker Engine`.
 
