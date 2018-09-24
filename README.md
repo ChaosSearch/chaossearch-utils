@@ -53,12 +53,11 @@ We can now use the `transportSettings` to create the connection pool.
     }).run()
 ```
 
-Some things to note here, the `host` and `port` are needed by the API but will not be used by the underlying `clientTransport`. In fact if you dig on to the code you will see we set the local and remote addresses to nonsense values. There is no TCP involvd here and are hence ignored.
+Some things to note here, the `host` and `port` are needed by the API but will not be used by the underlying `clientTransport`. In fact if you dig on to the code you will see we set the local and remote addresses to nonsense values. There is no TCP involved here, and therefore ignored.
 
 Now we can create an `HttpRequest`.
 
-The `Docker Engine` has a test interface in their REST API to verify in the engine is operational.
-(https://docs.docker.com/engine/api/v1.35/#operation/SystemPing)
+The `Docker Engine` has a test interface in the [REST API](https://docs.docker.com/engine/api/v1.35/#operation/SystemPing) to verify in the engine is operational.
 
 In this example we are going to use it.
 
